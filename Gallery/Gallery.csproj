@@ -69,6 +69,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\Photo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -99,6 +100,30 @@
     <Resource Include="Images\Editicon.png" />
     <Resource Include="Images\Fileicon.png" />
     <Resource Include="Images\viewicon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\x_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\image1.jpeg" />
+    <Resource Include="Images\image2.jpeg" />
+    <Resource Include="Images\image3.jpeg" />
+    <Resource Include="Images\image4.jpeg" />
+    <Resource Include="Images\image5.jpeg" />
+    <Resource Include="Images\image6.jpeg" />
+    <Resource Include="Images\image7.jpeg" />
+    <Resource Include="Images\image8.jpeg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\image10.jpeg" />
+    <Resource Include="Images\image11.jpeg" />
+    <Resource Include="Images\image9.jpeg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\minus-math.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\full-screen.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
