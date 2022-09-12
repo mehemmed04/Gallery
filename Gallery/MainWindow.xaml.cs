@@ -1,8 +1,12 @@
 ﻿using Gallery.Models;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -23,9 +27,15 @@ namespace Gallery
     public partial class MainWindow : Window
     {
 
-       // public int PhotoSize {get; set; }=100;
+        // public int PhotoSize {get; set; }=100;
         public bool IsFullScreen { get; set; } = false;
-        public List<Photo> photos = new List<Photo>()
+        public ObservableCollection<Photo> Photos { get; set; }
+
+        public MainWindow()
+        {
+            InitializeComponent();
+            this.DataContext = this;
+            Photos = new ObservableCollection<Photo>()
             {
                 new Photo
                 {
@@ -72,14 +82,7 @@ namespace Gallery
                      ImagePath="Images/image11.jpeg"
                 },
             };
-        public MainWindow()
-        {
-            InitializeComponent();
-            this.DataContext = this;
-            if (photos.Count > 0)
-            {
-                ListViewProducts.ItemsSource = photos;
-            }
+
         }
 
         private void close_app_Click(object sender, RoutedEventArgs e)
@@ -87,7 +90,7 @@ namespace Gallery
             this.Close();
         }
 
- 
+
 
         private void minimize_app_Click(object sender, RoutedEventArgs e)
         {
@@ -104,7 +107,7 @@ namespace Gallery
             else
             {
                 WindowState = WindowState.Normal;
-                IsFullScreen=false;
+                IsFullScreen = false;
             }
 
         }
@@ -112,19 +115,19 @@ namespace Gallery
 
         public void mediumicons_Click(object sender, RoutedEventArgs e)
         {
-            photos.ForEach(p => { p.PhotoSize = 100; p.PhotoBorderSize = 110; });
+            Photos.ToList().ForEach(p => { p.PhotoSize = 100; p.PhotoBorderSize = 110; });
         }
 
         private void smallicons_Click(object sender, RoutedEventArgs e)
         {
-            photos.ForEach(p => { p.PhotoSize = 60; p.PhotoBorderSize = 70; });
+            Photos.ToList().ForEach(p => { p.PhotoSize = 60; p.PhotoBorderSize = 70; });
 
 
         }
 
         private void largeicons_Click(object sender, RoutedEventArgs e)
         {
-            photos.ForEach(p => { p.PhotoSize = 150; p.PhotoBorderSize = 160; });
+            Photos.ToList().ForEach(p => { p.PhotoSize = 150; p.PhotoBorderSize = 160; });
 
 
         }
@@ -146,24 +149,49 @@ namespace Gallery
                 {
                     string filename = System.IO.Path.GetFullPath(files[i]);
                     FileInfo fileInfo = new FileInfo(files[i]);
-                     photos.Add(new Photo
+                    Photos.Add(new Photo
                     {
                         ImagePath = filename,
-                        PhotoBorderSize = photos[0].PhotoBorderSize,
-                        PhotoSize = photos[0].PhotoBorderSize
+                        PhotoBorderSize = Photos[0].PhotoBorderSize,
+                        PhotoSize = Photos[0].PhotoBorderSize
                     }); ;
                 }
-                ListViewProducts.ItemsSource = null;
-                ListViewProducts.ItemsSource = photos;
+
             }
         }
 
-        private void ListViewProducts_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+
+        private void ListViewProducts_MouseDoubleClick_1(object sender, MouseButtonEventArgs e)
         {
-           if(sender is ItemsControl i)
+            var selectedPhoto = ListViewProducts.SelectedItem as Photo;
+            if (selectedPhoto != null)
             {
-                var photo = i.ItemsSource as List<Photo>;
-                MessageBox.Show(photo[0].ImagePath);
+                PhotoDetails photoWindow = new PhotoDetails();
+                photoWindow.Path = selectedPhoto.ImagePath;
+                photoWindow.PhotosIndex = Photos.IndexOf(selectedPhoto);
+                photoWindow.Photos = Photos.ToList() ;
+                photoWindow.ShowDialog();
+            }
+        }
+
+        private void addFile_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog() { Multiselect = true };
+            bool? response = openFileDialog.ShowDialog();
+            if (response == true)
+            {
+                string[] files = openFileDialog.FileNames;
+                for (int i = 0; i < files.Length; i++)
+                {
+                    string filename = System.IO.Path.GetFullPath(files[i]);
+                    FileInfo fileInfo = new FileInfo(files[i]);
+                    Photos.Add(new Photo
+                    {
+                        ImagePath = filename,
+                        PhotoBorderSize = Photos[0].PhotoBorderSize,
+                        PhotoSize = Photos[0].PhotoBorderSize
+                    }); ;
+                }
             }
         }
     }

@@ -67,9 +67,16 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="PhotoDetails.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\Photo.cs" />
+    <Compile Include="PhotoDetails.xaml.cs">
+      <DependentUpon>PhotoDetails.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -124,6 +131,14 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\full-screen.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\autoplay.png" />
+    <Resource Include="Images\next.png" />
+    <Resource Include="Images\pause.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\previous.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
